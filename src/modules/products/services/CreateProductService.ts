@@ -1,8 +1,8 @@
-import ProductRepository from './../typeorm/repositories/ProductsRepository';
-import { getCustomRepository } from 'typeorm';
-import AppError from '@shared/errors/AppErrors';
-import Product from '../typeorm/entities/Product';
-import RedisCache from '@shared/cache/RedisCache';
+import ProductRepository from "../infra/typeorm/repositories/ProductsRepository";
+import { getCustomRepository } from "typeorm";
+import AppError from "@shared/errors/AppErrors";
+import Product from "../infra/typeorm/entities/Product";
+import RedisCache from "@shared/cache/RedisCache";
 
 interface IRequest {
   name: string;
@@ -16,7 +16,7 @@ class CreateProductService {
     const productsExistis = await productsRepository.findByName(name);
 
     if (productsExistis) {
-      throw new AppError('There is already one product whith this name!');
+      throw new AppError("There is already one product whith this name!");
     }
 
     // const redisCache = new RedisCache();
@@ -27,7 +27,7 @@ class CreateProductService {
       quantity,
     });
 
-    await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
+    await RedisCache.invalidate("api-vendas-PRODUCT_LIST");
 
     await productsRepository.save(product);
 

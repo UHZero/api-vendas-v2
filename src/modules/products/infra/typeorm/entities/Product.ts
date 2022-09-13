@@ -1,4 +1,4 @@
-import OrdersProducts from '@modules/orders/typeorm/entities/OrdersProducts';
+import OrdersProducts from "@modules/orders/infra/typeorm/entities/OrdersProducts";
 import {
   Column,
   CreateDateColumn,
@@ -6,23 +6,23 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
+} from "typeorm";
 
-@Entity('products')
+@Entity("products")
 class Product {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @OneToMany(() => OrdersProducts, order_products => order_products.product)
+  @OneToMany(() => OrdersProducts, (order_products) => order_products.product)
   order_products: OrdersProducts[];
 
   @Column()
   name: string;
 
-  @Column('decimal')
+  @Column("decimal")
   price: number;
 
-  @Column('int')
+  @Column("int")
   quantity: number;
 
   @CreateDateColumn()

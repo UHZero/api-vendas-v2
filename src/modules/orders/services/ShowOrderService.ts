@@ -1,7 +1,7 @@
-import { getCustomRepository } from 'typeorm';
-import AppError from '@shared/errors/AppErrors';
-import OrdersRepository from '../typeorm/repositories/OrdersRepository';
-import Order from '../typeorm/entities/Order';
+import { getCustomRepository } from "typeorm";
+import AppError from "@shared/errors/AppErrors";
+import OrdersRepository from "../infra/typeorm/repositories/OrdersRepository";
+import Order from "../infra/typeorm/entities/Order";
 
 interface IRequest {
   id: string;
@@ -13,7 +13,7 @@ class ShowOrderService {
     const order = await ordersRepository.findById(id);
 
     if (!order) {
-      throw new AppError('Order not found!');
+      throw new AppError("Order not found!");
     }
 
     return order;

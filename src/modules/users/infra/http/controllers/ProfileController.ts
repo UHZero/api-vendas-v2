@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import ShowProfileService from '../services/ShowProfileService copy';
-import UpdateProfileService from '../services/UpdateProfileService';
-import { instanceToInstance } from 'class-transformer';
+import { Request, Response } from "express";
+import ShowProfileService from "../../../services/ShowProfileService copy";
+import UpdateProfileService from "../../../services/UpdateProfileService";
+import { instanceToInstance } from "class-transformer";
 
 export default class ProfileController {
   public async show(req: Request, res: Response): Promise<Response> {
