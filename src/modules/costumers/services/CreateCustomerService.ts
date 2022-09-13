@@ -1,27 +1,25 @@
-import { getCustomRepository } from 'typeorm';
 import AppError from '@shared/errors/AppErrors';
-import Customer from '../infra/typeorm/entities/Customer';
-import CustomersRepository from '../infra/typeorm/repositories/CostumersRepository';
+import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
+import { ICreateCustomer } from '../domain/model/ICreateCustomer';
+import { ICustomer } from '../domain/model/ICustomer';
+import { inject, injectable } from 'tsyringe';
 
-interface IRequest {
-  name: string;
-  email: string;
-}
-
+@injectable()
 class CreateCustomerService {
-  public async execute({ name, email }: IRequest): Promise<Customer> {
-    const customersRepository = getCustomRepository(CustomersRepository);
-    const emailExists = await customersRepository.findByEmail(email);
+  constructor(
+    @inject('CustomersRepository')
+    private customersRepository: ICustomersRepository,
+  ) {}
+  public async execute({ name, email }: ICreateCustomer): Promise<ICustomer> {
+    const emailExists = await this.customersRepository.findByEmail(email);
     if (emailExists) {
       throw new AppError('Email Adress alread used!');
     }
 
-    const customer = customersRepository.create({
+    const customer = await this.customersRepository.create({
       name,
       email,
     });
-
-    await customersRepository.save(customer);
 
     return customer;
   }
