@@ -1,7 +1,7 @@
-import { getCustomRepository } from "typeorm";
-import AppError from "@shared/errors/AppErrors";
-import Customer from "../infra/typeorm/entities/Customer";
-import CustomersRepository from "../infra/typeorm/repositories/CostumersRepository";
+import { getCustomRepository } from 'typeorm';
+import AppError from '@shared/errors/AppErrors';
+import Customer from '../infra/typeorm/entities/Customer';
+import CustomersRepository from '../infra/typeorm/repositories/CostumersRepository';
 
 interface IRequest {
   name: string;
@@ -13,7 +13,7 @@ class CreateCustomerService {
     const customersRepository = getCustomRepository(CustomersRepository);
     const emailExists = await customersRepository.findByEmail(email);
     if (emailExists) {
-      throw new AppError("Email Adress alread used!");
+      throw new AppError('Email Adress alread used!');
     }
 
     const customer = customersRepository.create({
