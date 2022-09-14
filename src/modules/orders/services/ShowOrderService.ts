@@ -1,19 +1,20 @@
-import { getCustomRepository } from "typeorm";
-import AppError from "@shared/errors/AppErrors";
-import OrdersRepository from "../infra/typeorm/repositories/OrdersRepository";
-import Order from "../infra/typeorm/entities/Order";
+import { inject, injectable } from 'tsyringe';
+import AppError from '@shared/errors/AppErrors';
+import { IOrdersRepository } from '../domain/repositories/IOrdersRepository';
+import { IOrder } from '../domain/model/IOrders';
+import { IShowOrder } from '../domain/model/IShowOrder';
 
-interface IRequest {
-  id: string;
-}
-
+@injectable()
 class ShowOrderService {
-  public async execute({ id }: IRequest): Promise<Order> {
-    const ordersRepository = getCustomRepository(OrdersRepository);
-    const order = await ordersRepository.findById(id);
+  constructor(
+    @inject('OrdersRepository')
+    private ordersRepository: IOrdersRepository,
+  ) {}
+  public async execute({ id }: IShowOrder): Promise<IOrder> {
+    const order = await this.ordersRepository.findById(id);
 
     if (!order) {
-      throw new AppError("Order not found!");
+      throw new AppError('Order not found!');
     }
 
     return order;

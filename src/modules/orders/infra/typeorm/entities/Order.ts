@@ -1,4 +1,5 @@
 import {
+  Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
@@ -6,21 +7,25 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from "typeorm";
+} from 'typeorm';
 
-import Customer from "@modules/costumers/infra/typeorm/entities/Customer";
-import OrdersProducts from "./OrdersProducts";
+import Customer from '@modules/costumers/infra/typeorm/entities/Customer';
+import OrdersProducts from './OrdersProducts';
+import { IOrder } from '@modules/orders/domain/model/IOrders';
 
-@Entity("orders")
-class Order {
-  @PrimaryGeneratedColumn("uuid")
+@Entity('orders')
+class Order implements IOrder {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column('int')
+  order: number;
+
   @ManyToOne(() => Customer)
-  @JoinColumn({ name: "customer_id" })
+  @JoinColumn({ name: 'customer_id' })
   customer: Customer;
 
-  @OneToMany(() => OrdersProducts, (order_products) => order_products.order, {
+  @OneToMany(() => OrdersProducts, order_products => order_products.order, {
     cascade: true,
   })
   order_products: OrdersProducts[];

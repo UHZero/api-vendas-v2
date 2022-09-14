@@ -1,35 +1,40 @@
-import ProductRepository from "../infra/typeorm/repositories/ProductsRepository";
-import { getCustomRepository } from "typeorm";
-import AppError from "@shared/errors/AppErrors";
-import Product from "../infra/typeorm/entities/Product";
-import RedisCache from "@shared/cache/RedisCache";
+import { inject, injectable } from 'tsyringe';
+import AppError from '@shared/errors/AppErrors';
+import RedisCache from '@shared/cache/RedisCache';
+import { ICreateProduct } from '@modules/products/domain/model/ICreateProduct';
+import { IProduct } from '@modules/products/domain/model/IProduct';
+import { IProductsRepository } from '@modules/products/domain/repositories/IProductsRepository';
 
-interface IRequest {
-  name: string;
-  price: number;
-  quantity: number;
-}
-
+@injectable()
 class CreateProductService {
-  public async execute({ name, price, quantity }: IRequest): Promise<Product> {
-    const productsRepository = getCustomRepository(ProductRepository);
-    const productsExistis = await productsRepository.findByName(name);
+  constructor(
+    @inject('ProductsRepository')
+    private productsRepository: IProductsRepository,
+  ) {}
+  public async execute({
+    name,
+    price,
+    quantity,
+  }: ICreateProduct): Promise<IProduct> {
+    const productsExistis = await this.productsRepository.findByName(name);
 
     if (productsExistis) {
-      throw new AppError("There is already one product whith this name!");
+      throw new AppError('There is already one product whith this name!');
     }
 
-    // const redisCache = new RedisCache();
-
-    const product = productsRepository.create({
+    const product = this.productsRepository.create({
       name,
       price,
       quantity,
     });
 
-    await RedisCache.invalidate("api-vendas-PRODUCT_LIST");
+    await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
 
-    await productsRepository.save(product);
+    await this.productsRepository.create({
+      name,
+      price,
+      quantity,
+    });
 
     return product;
   }
