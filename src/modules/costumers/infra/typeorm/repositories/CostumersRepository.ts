@@ -1,12 +1,37 @@
 import { getRepository, Repository } from 'typeorm';
 import Customer from '../entities/Customer';
-import { ICustomersRepository } from '@modules/costumers/domain/repositories/ICustomersRepository';
+import {
+  ICustomersRepository,
+  SearchParams,
+} from '@modules/costumers/domain/repositories/ICustomersRepository';
 import { ICreateCustomer } from '@modules/costumers/domain/model/ICreateCustomer';
+import { ICustomersPaginate } from '@modules/costumers/domain/model/ICustomersPaginate';
 
 class CustomersRepository implements ICustomersRepository {
   private ormRepository: Repository<Customer>;
   constructor() {
     this.ormRepository = getRepository(Customer);
+  }
+
+  public async findAll({
+    page,
+    skip,
+    take,
+  }: SearchParams): Promise<ICustomersPaginate> {
+    const [customers, count] = await this.ormRepository
+      .createQueryBuilder()
+      .skip(skip)
+      .take(take)
+      .getManyAndCount();
+
+    const result = {
+      per_page: take,
+      total: count,
+      current_page: page,
+      data: customers,
+    };
+
+    return result;
   }
 
   public async create({ name, email }: ICreateCustomer): Promise<Customer> {

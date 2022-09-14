@@ -1,10 +1,8 @@
 import AppError from '@shared/errors/AppErrors';
 import { inject, injectable } from 'tsyringe';
-import { getCustomRepository } from 'typeorm';
 import { IUpdateCustomer } from '../domain/model/IUpdateCustomer';
 import { ICustomersRepository } from '../domain/repositories/ICustomersRepository';
 import Customer from '../infra/typeorm/entities/Customer';
-import CustomersRepository from '../infra/typeorm/repositories/CostumersRepository';
 
 @injectable()
 class UpdateCustomerService {
