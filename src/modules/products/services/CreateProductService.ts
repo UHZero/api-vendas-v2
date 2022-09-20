@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 import AppError from '@shared/errors/AppErrors';
-import RedisCache from '@shared/cache/RedisCache';
 import { ICreateProduct } from '@modules/products/domain/model/ICreateProduct';
 import { IProduct } from '@modules/products/domain/model/IProduct';
 import { IProductsRepository } from '@modules/products/domain/repositories/IProductsRepository';
@@ -21,8 +20,6 @@ class CreateProductService {
     if (productsExistis) {
       throw new AppError('There is already one product whith this name!');
     }
-
-    await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
 
     const product = await this.productsRepository.create({
       name,

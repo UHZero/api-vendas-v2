@@ -1,11 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import Customer from '@modules/costumers/infra/typeorm/entities/Customer';
 import { ICreateCustomer } from '@modules/costumers/domain/model/ICreateCustomer';
-import {
-  ICustomersRepository,
-  SearchParams,
-} from '@modules/costumers/domain/repositories/ICustomersRepository';
-import { ICustomersPaginate } from '../../model/ICustomersPaginate';
+import { ICustomersRepository } from '@modules/costumers/domain/repositories/ICustomersRepository';
 
 class FakeCustomersRepository implements ICustomersRepository {
   private customers: Customer[] = [];
@@ -33,7 +29,7 @@ class FakeCustomersRepository implements ICustomersRepository {
   }
 
   public async findAll(): Promise<Customer[] | undefined> {
-    return undefined;
+    return this.customers;
   }
 
   public async findByName(name: string): Promise<Customer | undefined> {

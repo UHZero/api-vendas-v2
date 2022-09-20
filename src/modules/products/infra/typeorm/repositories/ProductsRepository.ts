@@ -4,6 +4,7 @@ import Product from '../entities/Product';
 import { IFindProducts } from '@modules/products/domain/model/IFindProducts';
 import { ICreateProduct } from '@modules/products/domain/model/ICreateProduct';
 import { IUpdateStockProduct } from '@modules/products/domain/model/IUpdateStockProduct';
+import RedisCache from '@shared/cache/RedisCache';
 
 class ProductRepository implements IProductsRepository {
   private ormRepository: Repository<Product>;
@@ -15,6 +16,9 @@ class ProductRepository implements IProductsRepository {
     price,
     quantity,
   }: ICreateProduct): Promise<Product> {
+    if (process.env.ENV_TEST === 'false') {
+      await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
+    }
     const product = this.ormRepository.create({
       name,
       price,
@@ -25,15 +29,24 @@ class ProductRepository implements IProductsRepository {
   }
 
   public async save(product: Product): Promise<Product> {
+    if (process.env.ENV_TEST === 'false') {
+      await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
+    }
     await this.ormRepository.save(product);
     return product;
   }
 
   public async remove(product: Product): Promise<void> {
+    if (process.env.ENV_TEST === 'false') {
+      await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
+    }
     await this.ormRepository.remove(product);
   }
 
   public async updateStock(products: IUpdateStockProduct[]): Promise<void> {
+    if (process.env.ENV_TEST === 'false') {
+      await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
+    }
     await this.ormRepository.save(products);
   }
 
