@@ -28,7 +28,8 @@ class FakeCustomersRepository implements ICustomersRepository {
   }
 
   public async remove(customer: Customer): Promise<void> {
-    return;
+    const newDB = this.customers.filter(Icustomer => Icustomer != customer);
+    this.customers = newDB;
   }
 
   public async findAll(): Promise<Customer[] | undefined> {
