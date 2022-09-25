@@ -1,20 +1,18 @@
+import 'reflect-metadata';
 import AppError from '@shared/errors/AppErrors';
 import FakeCustomersRepository from '@modules/costumers/domain/repositories/fakes/FakeCustomersRepository';
-import CreateCustomerService from '../CreateCustomerService';
 import ShowCustomerService from '../ShowCustomerService';
 
 let fakeCustomerRepository: FakeCustomersRepository;
-let createCustomer: CreateCustomerService;
 let showCustomer: ShowCustomerService;
 
 describe('Show Customer', () => {
   beforeEach(() => {
     fakeCustomerRepository = new FakeCustomersRepository();
-    createCustomer = new CreateCustomerService(fakeCustomerRepository);
     showCustomer = new ShowCustomerService(fakeCustomerRepository);
   });
   it('should be able show a customer', async () => {
-    const customer = await createCustomer.execute({
+    const customer = await fakeCustomerRepository.create({
       name: 'Teste Name',
       email: 'emailteste@email.com',
     });
@@ -25,7 +23,7 @@ describe('Show Customer', () => {
   });
 
   it('should not be able to show a customer', async () => {
-    await createCustomer.execute({
+    await fakeCustomerRepository.create({
       name: 'Teste Name',
       email: 'emailteste@email.com',
     });

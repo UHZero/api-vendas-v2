@@ -6,7 +6,7 @@ interface ITokenJwt {
 }
 export default {
   jwt: {
-    secret: process.env.APP_SECRET,
+    secret: 'MinhaSecret', //process.env.APP_SECRET,
     expiresIn: '1d',
   },
 } as ITokenJwt;

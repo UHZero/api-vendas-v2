@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import FakeProductRepository from '@modules/products/domain/repositories/fakes/FakeProductsRepository';
 import AppError from '@shared/errors/AppErrors';
 import CreateProductService from '../CreateProductService';

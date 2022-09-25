@@ -1,20 +1,18 @@
+import 'reflect-metadata';
 import FakeProductRepository from '@modules/products/domain/repositories/fakes/FakeProductsRepository';
 import AppError from '@shared/errors/AppErrors';
-import CreateProductService from '../CreateProductService';
 import UpdateProductService from '../UpdateProductService';
 
 let fakeRepository: FakeProductRepository;
-let createProduct: CreateProductService;
 let updateProduct: UpdateProductService;
 
 describe('Update Prodcuts', () => {
   beforeEach(() => {
     fakeRepository = new FakeProductRepository();
-    createProduct = new CreateProductService(fakeRepository);
     updateProduct = new UpdateProductService(fakeRepository);
   });
   it('should be able to update a product', async () => {
-    const product = await createProduct.execute({
+    const product = await fakeRepository.create({
       name: 'Teste',
       price: 99.9,
       quantity: 9,
@@ -33,7 +31,7 @@ describe('Update Prodcuts', () => {
   });
 
   it('should not be able to update a product', async () => {
-    await createProduct.execute({
+    await fakeRepository.create({
       name: 'Teste',
       price: 99.9,
       quantity: 9,
@@ -52,13 +50,13 @@ describe('Update Prodcuts', () => {
   });
 
   it('should not be able to use a same name for update a product', async () => {
-    await createProduct.execute({
+    await fakeRepository.create({
       name: 'NameExists',
       price: 99.9,
       quantity: 9,
     });
 
-    const newProduct = await createProduct.execute({
+    const newProduct = await fakeRepository.create({
       name: 'Teste',
       price: 99.9,
       quantity: 9,

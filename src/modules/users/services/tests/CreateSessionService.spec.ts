@@ -1,19 +1,23 @@
+import 'reflect-metadata';
 import FakeUsersRepository from '@modules/users/domain/repositories/fakes/FakeUsersRepository';
-import CreateUserService from '../CreateUserService';
+import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import CreateSessionsService from '../CreationSessionsService';
 
 let fakeUsersRepository: FakeUsersRepository;
-let createUser: CreateUserService;
 let createSession: CreateSessionsService;
+let hashProvider: FakeHashProvider;
 
 describe('Create Session', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
-    createUser = new CreateUserService(fakeUsersRepository);
-    createSession = new CreateSessionsService(fakeUsersRepository);
+    hashProvider = new FakeHashProvider();
+    createSession = new CreateSessionsService(
+      fakeUsersRepository,
+      hashProvider,
+    );
   });
-  it('should be able to create a user session', async () => {
-    await createUser.execute({
+  it('should be able to authenticate', async () => {
+    const user = await fakeUsersRepository.create({
       name: 'TesteName',
       email: 'teste.teste@email.com',
       password: 'senha123',
@@ -24,8 +28,9 @@ describe('Create Session', () => {
       password: 'senha123',
     });
 
-    console.log(authUser);
+    // console.log(authUser);
 
     expect(authUser).toHaveProperty('token');
+    expect(authUser.user).toEqual(user);
   });
 });

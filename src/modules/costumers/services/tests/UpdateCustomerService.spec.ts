@@ -1,20 +1,18 @@
+import 'reflect-metadata';
 import FakeCustomersRepository from '@modules/costumers/domain/repositories/fakes/FakeCustomersRepository';
 import AppError from '@shared/errors/AppErrors';
-import CreateCustomerService from '../CreateCustomerService';
 import UpdateCustomerService from '../UpdateCustomerService';
 
 let fakeCustomerRepository: FakeCustomersRepository;
-let createCustomer: CreateCustomerService;
 let updateCustomer: UpdateCustomerService;
 
 describe('Update Customer', () => {
   beforeEach(() => {
     fakeCustomerRepository = new FakeCustomersRepository();
-    createCustomer = new CreateCustomerService(fakeCustomerRepository);
     updateCustomer = new UpdateCustomerService(fakeCustomerRepository);
   });
   it('should be able to update a customer', async () => {
-    const customer = await createCustomer.execute({
+    const customer = await fakeCustomerRepository.create({
       name: 'Teste Name',
       email: 'emailteste@email.com',
     });
@@ -31,7 +29,7 @@ describe('Update Customer', () => {
   });
 
   it('should not be able to update a customer', async () => {
-    await createCustomer.execute({
+    await fakeCustomerRepository.create({
       name: 'Teste Name',
       email: 'emailteste@email.com',
     });
@@ -48,12 +46,12 @@ describe('Update Customer', () => {
   });
 
   it('should not be able to update email of customer', async () => {
-    const customer = await createCustomer.execute({
+    const customer = await fakeCustomerRepository.create({
       name: 'Teste Name',
       email: 'emailteste@email.com',
     });
 
-    const alreadyEmailExistscustomer = await createCustomer.execute({
+    const alreadyEmailExistscustomer = await fakeCustomerRepository.create({
       name: 'Teste Email',
       email: 'emailexists@email.com',
     });

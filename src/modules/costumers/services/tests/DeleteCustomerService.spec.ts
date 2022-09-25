@@ -1,20 +1,18 @@
+import 'reflect-metadata';
 import FakeCustomersRepository from '@modules/costumers/domain/repositories/fakes/FakeCustomersRepository';
 import AppError from '@shared/errors/AppErrors';
-import CreateCustomerService from '../CreateCustomerService';
 import DeleteCustomerService from '../DeleteCustomerService';
 
 let fakeCustomerRepository: FakeCustomersRepository;
-let createCustomer: CreateCustomerService;
 let removeCustomer: DeleteCustomerService;
 
 describe('Delete Customer', () => {
   beforeEach(() => {
     fakeCustomerRepository = new FakeCustomersRepository();
-    createCustomer = new CreateCustomerService(fakeCustomerRepository);
     removeCustomer = new DeleteCustomerService(fakeCustomerRepository);
   });
   it('should be able to remove a customer', async () => {
-    const customer = await createCustomer.execute({
+    const customer = await fakeCustomerRepository.create({
       name: 'Teste Name',
       email: 'emailteste@email.com',
     });
@@ -23,7 +21,7 @@ describe('Delete Customer', () => {
   });
 
   it('should not be able to remove a customer', async () => {
-    await createCustomer.execute({
+    await fakeCustomerRepository.create({
       name: 'Teste Name',
       email: 'emailteste@email.com',
     });
