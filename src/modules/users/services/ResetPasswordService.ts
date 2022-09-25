@@ -1,10 +1,10 @@
 import AppError from '@shared/errors/AppErrors';
 import { isAfter, addHours } from 'date-fns';
-import { hash } from 'bcryptjs';
 import { inject, injectable } from 'tsyringe';
 import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { IUserTokenRepository } from '../domain/repositories/IUserTokenRepository';
 import { IResetPassword } from '../domain/model/IResetPassword';
+import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
 
 @injectable()
 class ResetPasswordService {
@@ -14,6 +14,9 @@ class ResetPasswordService {
 
     @inject('UsersTokensRepository')
     private userTokensRepository: IUserTokenRepository,
+
+    @inject('HashContainer')
+    private hashProvider: IHashProvider,
   ) {}
   public async execute({ token, password }: IResetPassword): Promise<void> {
     const userToken = await this.userTokensRepository.findByToken(token);
@@ -35,7 +38,7 @@ class ResetPasswordService {
       throw new AppError('Token expired!');
     }
 
-    user.password = await hash(password, 8);
+    user.password = await this.hashProvider.generateHash(password);
 
     await this.usersRepository.save(user);
   }

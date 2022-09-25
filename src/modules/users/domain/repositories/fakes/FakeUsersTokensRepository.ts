@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { IUserTokenRepository } from '@modules/users/domain/repositories/IUserTokenRepository';
 import UserToken from '@modules/users/infra/typeorm/entities/UserToken';
+import { IFakeUserTokenRepository } from './models/IFakeUsersTokens';
 
-class FakeUsersTokensRepository implements IUserTokenRepository {
+class FakeUsersTokensRepository implements IFakeUserTokenRepository {
   private tokens: UserToken[] = [];
 
   public async findByToken(token: string): Promise<UserToken | undefined> {
