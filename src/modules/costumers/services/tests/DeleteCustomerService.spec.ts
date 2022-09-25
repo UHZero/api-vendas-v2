@@ -3,13 +3,17 @@ import AppError from '@shared/errors/AppErrors';
 import CreateCustomerService from '../CreateCustomerService';
 import DeleteCustomerService from '../DeleteCustomerService';
 
+let fakeCustomerRepository: FakeCustomersRepository;
+let createCustomer: CreateCustomerService;
+let removeCustomer: DeleteCustomerService;
+
 describe('Delete Customer', () => {
+  beforeEach(() => {
+    fakeCustomerRepository = new FakeCustomersRepository();
+    createCustomer = new CreateCustomerService(fakeCustomerRepository);
+    removeCustomer = new DeleteCustomerService(fakeCustomerRepository);
+  });
   it('should be able to remove a customer', async () => {
-    const fakeCustomerRepository = new FakeCustomersRepository();
-
-    const createCustomer = new CreateCustomerService(fakeCustomerRepository);
-    const removeCustomer = new DeleteCustomerService(fakeCustomerRepository);
-
     const customer = await createCustomer.execute({
       name: 'Teste Name',
       email: 'emailteste@email.com',
@@ -19,11 +23,6 @@ describe('Delete Customer', () => {
   });
 
   it('should not be able to remove a customer', async () => {
-    const fakeCustomerRepository = new FakeCustomersRepository();
-
-    const createCustomer = new CreateCustomerService(fakeCustomerRepository);
-    const removeCustomer = new DeleteCustomerService(fakeCustomerRepository);
-
     await createCustomer.execute({
       name: 'Teste Name',
       email: 'emailteste@email.com',

@@ -1,5 +1,5 @@
-import { ICreateUser } from './ICreateUser';
-import { IUser } from './IUser';
+import { ICreateUser } from '../model/ICreateUser';
+import { IUser } from '../model/IUser';
 
 export interface IUsersRepository {
   findAll(): Promise<IUser[]>;

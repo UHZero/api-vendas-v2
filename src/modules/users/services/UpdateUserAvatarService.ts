@@ -3,7 +3,7 @@ import AppError from '@shared/errors/AppErrors';
 import DiskStorageProvider from '@shared/providers/StorageProvider/DiskStorageProvider';
 import S3StorageProvider from '@shared/providers/StorageProvider/S3StorageProvider';
 import { inject, injectable } from 'tsyringe';
-import { IUsersRepository } from '../domain/model/IUsersRepository';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { IUpdateAvatar } from '../domain/model/IUpdateAvatar';
 import { IUser } from '../domain/model/IUser';
 

@@ -2,8 +2,8 @@ import AppError from '@shared/errors/AppErrors';
 import { isAfter, addHours } from 'date-fns';
 import { hash } from 'bcryptjs';
 import { inject, injectable } from 'tsyringe';
-import { IUsersRepository } from '../domain/model/IUsersRepository';
-import { IUserTokenRepository } from '../domain/model/IUserTokenRepository';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
+import { IUserTokenRepository } from '../domain/repositories/IUserTokenRepository';
 import { IResetPassword } from '../domain/model/IResetPassword';
 
 @injectable()

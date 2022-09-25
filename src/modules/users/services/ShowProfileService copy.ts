@@ -2,7 +2,7 @@ import AppError from '@shared/errors/AppErrors';
 import { inject, injectable } from 'tsyringe';
 import { IShowUser } from '../domain/model/IShowUser';
 import { IUser } from '../domain/model/IUser';
-import { IUsersRepository } from '../domain/model/IUsersRepository';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 
 @injectable()
 class ShowProfileService {

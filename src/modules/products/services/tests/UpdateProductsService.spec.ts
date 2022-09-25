@@ -3,12 +3,17 @@ import AppError from '@shared/errors/AppErrors';
 import CreateProductService from '../CreateProductService';
 import UpdateProductService from '../UpdateProductService';
 
-describe('Update Prodcuts', () => {
-  it('should be able to update a product', async () => {
-    const fakeRepository = new FakeProductRepository();
-    const createProduct = new CreateProductService(fakeRepository);
-    const updateProduct = new UpdateProductService(fakeRepository);
+let fakeRepository: FakeProductRepository;
+let createProduct: CreateProductService;
+let updateProduct: UpdateProductService;
 
+describe('Update Prodcuts', () => {
+  beforeEach(() => {
+    fakeRepository = new FakeProductRepository();
+    createProduct = new CreateProductService(fakeRepository);
+    updateProduct = new UpdateProductService(fakeRepository);
+  });
+  it('should be able to update a product', async () => {
     const product = await createProduct.execute({
       name: 'Teste',
       price: 99.9,
@@ -28,10 +33,6 @@ describe('Update Prodcuts', () => {
   });
 
   it('should not be able to update a product', async () => {
-    const fakeRepository = new FakeProductRepository();
-    const createProduct = new CreateProductService(fakeRepository);
-    const updateProduct = new UpdateProductService(fakeRepository);
-
     await createProduct.execute({
       name: 'Teste',
       price: 99.9,
@@ -51,10 +52,6 @@ describe('Update Prodcuts', () => {
   });
 
   it('should not be able to use a same name for update a product', async () => {
-    const fakeRepository = new FakeProductRepository();
-    const createProduct = new CreateProductService(fakeRepository);
-    const updateProduct = new UpdateProductService(fakeRepository);
-
     await createProduct.execute({
       name: 'NameExists',
       price: 99.9,

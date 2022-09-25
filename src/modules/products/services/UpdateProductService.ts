@@ -28,6 +28,10 @@ class UpdateProductService {
       throw new AppError('There is already one product whith this name!');
     }
 
+    if (process.env.ENV_TEST === 'false') {
+      await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
+    }
+
     product.name = name;
     product.price = price;
     product.quantity = quantity;

@@ -29,24 +29,21 @@ class ProductRepository implements IProductsRepository {
   }
 
   public async save(product: Product): Promise<Product> {
-    if (process.env.ENV_TEST === 'false') {
-      await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
-    }
+    await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
+
     await this.ormRepository.save(product);
     return product;
   }
 
   public async remove(product: Product): Promise<void> {
-    if (process.env.ENV_TEST === 'false') {
-      await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
-    }
+    await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
+
     await this.ormRepository.remove(product);
   }
 
   public async updateStock(products: IUpdateStockProduct[]): Promise<void> {
-    if (process.env.ENV_TEST === 'false') {
-      await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
-    }
+    await RedisCache.invalidate('api-vendas-PRODUCT_LIST');
+
     await this.ormRepository.save(products);
   }
 

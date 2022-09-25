@@ -1,5 +1,5 @@
 import { ICreateUser } from '@modules/users/domain/model/ICreateUser';
-import { IUsersRepository } from '@modules/users/domain/model/IUsersRepository';
+import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import { getRepository, Repository } from 'typeorm';
 import User from '../entities/User';
 

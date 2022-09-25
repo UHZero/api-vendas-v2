@@ -6,10 +6,11 @@ import { IOrdersRepository } from '@modules/orders/domain/repositories/IOrdersRe
 import OrdersRepository from '@modules/orders/infra/typeorm/repositories/OrdersRepository';
 import { IProductsRepository } from '@modules/products/domain/repositories/IProductsRepository';
 import ProductRepository from '@modules/products/infra/typeorm/repositories/ProductsRepository';
-import { IUserTokenRepository } from '@modules/users/domain/model/IUserTokenRepository';
+import { IUserTokenRepository } from '@modules/users/domain/repositories/IUserTokenRepository';
 import UsersTokensRepository from '@modules/users/infra/typeorm/repositories/UsersTokensRepository';
-import { IUsersRepository } from '@modules/users/domain/model/IUsersRepository';
+import { IUsersRepository } from '@modules/users/domain/repositories/IUsersRepository';
 import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
+import '@modules/users/providers';
 
 container.registerSingleton<ICustomersRepository>(
   'CustomersRepository',

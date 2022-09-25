@@ -3,12 +3,17 @@ import AppError from '@shared/errors/AppErrors';
 import CreateProductService from '../CreateProductService';
 import DeleteProductService from '../DeleteProductService';
 
-describe('Delete Product', () => {
-  it('should be able to delete a product', async () => {
-    const fakeRepository = new FakeProductRepository();
-    const createProduct = new CreateProductService(fakeRepository);
-    const deleteProduct = new DeleteProductService(fakeRepository);
+let fakeRepository: FakeProductRepository;
+let createProduct: CreateProductService;
+let deleteProduct: DeleteProductService;
 
+describe('Delete Product', () => {
+  beforeEach(() => {
+    fakeRepository = new FakeProductRepository();
+    createProduct = new CreateProductService(fakeRepository);
+    deleteProduct = new DeleteProductService(fakeRepository);
+  });
+  it('should be able to delete a product', async () => {
     const product = await createProduct.execute({
       name: 'Teste',
       price: 99.9,
@@ -21,10 +26,6 @@ describe('Delete Product', () => {
   });
 
   it('should not be able to delete a product', async () => {
-    const fakeRepository = new FakeProductRepository();
-    const createProduct = new CreateProductService(fakeRepository);
-    const deleteProduct = new DeleteProductService(fakeRepository);
-
     await createProduct.execute({
       name: 'Teste',
       price: 99.9,

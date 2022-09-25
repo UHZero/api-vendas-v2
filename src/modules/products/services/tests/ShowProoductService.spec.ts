@@ -3,12 +3,17 @@ import AppError from '@shared/errors/AppErrors';
 import CreateProductService from '../CreateProductService';
 import ShowProductService from '../ShowProoductService';
 
-describe('Show Product', () => {
-  it('should be able to show a product', async () => {
-    const fakeRepository = new FakeProductRepository();
-    const createProduct = new CreateProductService(fakeRepository);
-    const showProduct = new ShowProductService(fakeRepository);
+let fakeRepository: FakeProductRepository;
+let createProduct: CreateProductService;
+let showProduct: ShowProductService;
 
+describe('Show Product', () => {
+  beforeEach(() => {
+    fakeRepository = new FakeProductRepository();
+    createProduct = new CreateProductService(fakeRepository);
+    showProduct = new ShowProductService(fakeRepository);
+  });
+  it('should be able to show a product', async () => {
     const product = await createProduct.execute({
       name: 'Teste',
       price: 99.9,
@@ -21,10 +26,6 @@ describe('Show Product', () => {
   });
 
   it('should not be able to show a product', async () => {
-    const fakeRepository = new FakeProductRepository();
-    const createProduct = new CreateProductService(fakeRepository);
-    const showProduct = new ShowProductService(fakeRepository);
-
     await createProduct.execute({
       name: 'Teste',
       price: 99.9,

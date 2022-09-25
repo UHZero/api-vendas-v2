@@ -2,11 +2,15 @@ import FakeProductRepository from '@modules/products/domain/repositories/fakes/F
 import AppError from '@shared/errors/AppErrors';
 import CreateProductService from '../CreateProductService';
 
-describe('Create Product', () => {
-  it('should be able to create a product', async () => {
-    const fakeRepository = new FakeProductRepository();
-    const createProduct = new CreateProductService(fakeRepository);
+let fakeRepository: FakeProductRepository;
+let createProduct: CreateProductService;
 
+describe('Create Product', () => {
+  beforeEach(() => {
+    fakeRepository = new FakeProductRepository();
+    createProduct = new CreateProductService(fakeRepository);
+  });
+  it('should be able to create a product', async () => {
     const product = await createProduct.execute({
       name: 'Teste',
       price: 99.9,
@@ -16,9 +20,6 @@ describe('Create Product', () => {
   });
 
   it('should not be able to create a product', async () => {
-    const fakeRepository = new FakeProductRepository();
-    const createProduct = new CreateProductService(fakeRepository);
-
     await createProduct.execute({
       name: 'Teste',
       price: 99.9,

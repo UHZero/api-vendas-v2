@@ -3,13 +3,17 @@ import FakeCustomersRepository from '@modules/costumers/domain/repositories/fake
 import CreateCustomerService from '../CreateCustomerService';
 import ShowCustomerService from '../ShowCustomerService';
 
+let fakeCustomerRepository: FakeCustomersRepository;
+let createCustomer: CreateCustomerService;
+let showCustomer: ShowCustomerService;
+
 describe('Show Customer', () => {
+  beforeEach(() => {
+    fakeCustomerRepository = new FakeCustomersRepository();
+    createCustomer = new CreateCustomerService(fakeCustomerRepository);
+    showCustomer = new ShowCustomerService(fakeCustomerRepository);
+  });
   it('should be able show a customer', async () => {
-    const fakeCustomerRepository = new FakeCustomersRepository();
-
-    const createCustomer = new CreateCustomerService(fakeCustomerRepository);
-    const showCustomer = new ShowCustomerService(fakeCustomerRepository);
-
     const customer = await createCustomer.execute({
       name: 'Teste Name',
       email: 'emailteste@email.com',
@@ -21,11 +25,6 @@ describe('Show Customer', () => {
   });
 
   it('should not be able to show a customer', async () => {
-    const fakeCustomerRepository = new FakeCustomersRepository();
-
-    const createCustomer = new CreateCustomerService(fakeCustomerRepository);
-    const showCustomer = new ShowCustomerService(fakeCustomerRepository);
-
     await createCustomer.execute({
       name: 'Teste Name',
       email: 'emailteste@email.com',

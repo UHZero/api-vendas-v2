@@ -3,7 +3,7 @@ import { compare, hash } from 'bcryptjs';
 import { inject, injectable } from 'tsyringe';
 import { IUpdateProfile } from '../domain/model/IUpdateProfile';
 import { IUser } from '../domain/model/IUser';
-import { IUsersRepository } from '../domain/model/IUsersRepository';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 
 @injectable()
 class UpdateProfileService {

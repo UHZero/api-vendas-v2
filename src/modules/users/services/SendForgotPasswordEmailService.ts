@@ -4,8 +4,8 @@ import SESMail from '@config/mail/SESMail';
 import mailConfig from '@config/mail/mail';
 import path from 'path';
 import { inject, injectable } from 'tsyringe';
-import { IUserTokenRepository } from '../domain/model/IUserTokenRepository';
-import { IUsersRepository } from '../domain/model/IUsersRepository';
+import { IUserTokenRepository } from '../domain/repositories/IUserTokenRepository';
+import { IUsersRepository } from '../domain/repositories/IUsersRepository';
 import { ISendForgotPasswordEmail } from '../domain/model/ISendForgotPasswordEmail';
 
 @injectable()

@@ -3,13 +3,17 @@ import AppError from '@shared/errors/AppErrors';
 import CreateCustomerService from '../CreateCustomerService';
 import UpdateCustomerService from '../UpdateCustomerService';
 
+let fakeCustomerRepository: FakeCustomersRepository;
+let createCustomer: CreateCustomerService;
+let updateCustomer: UpdateCustomerService;
+
 describe('Update Customer', () => {
+  beforeEach(() => {
+    fakeCustomerRepository = new FakeCustomersRepository();
+    createCustomer = new CreateCustomerService(fakeCustomerRepository);
+    updateCustomer = new UpdateCustomerService(fakeCustomerRepository);
+  });
   it('should be able to update a customer', async () => {
-    const fakeCustomerRepository = new FakeCustomersRepository();
-
-    const createCustomer = new CreateCustomerService(fakeCustomerRepository);
-    const updateCustomer = new UpdateCustomerService(fakeCustomerRepository);
-
     const customer = await createCustomer.execute({
       name: 'Teste Name',
       email: 'emailteste@email.com',
@@ -27,11 +31,6 @@ describe('Update Customer', () => {
   });
 
   it('should not be able to update a customer', async () => {
-    const fakeCustomerRepository = new FakeCustomersRepository();
-
-    const createCustomer = new CreateCustomerService(fakeCustomerRepository);
-    const updateCustomer = new UpdateCustomerService(fakeCustomerRepository);
-
     await createCustomer.execute({
       name: 'Teste Name',
       email: 'emailteste@email.com',
@@ -49,11 +48,6 @@ describe('Update Customer', () => {
   });
 
   it('should not be able to update email of customer', async () => {
-    const fakeCustomerRepository = new FakeCustomersRepository();
-
-    const createCustomer = new CreateCustomerService(fakeCustomerRepository);
-    const updateCustomer = new UpdateCustomerService(fakeCustomerRepository);
-
     const customer = await createCustomer.execute({
       name: 'Teste Name',
       email: 'emailteste@email.com',
