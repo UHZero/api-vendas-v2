@@ -4,6 +4,7 @@ import FakeUsersRepository from '@modules/users/domain/repositories/fakes/FakeUs
 import ResetPasswordService from '../ResetPasswordService';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import AppError from '@shared/errors/AppErrors';
+import { addHours } from 'date-fns';
 
 let fakeUserTokens: FakeUsersTokensRepository;
 let fakeUsersRepository: FakeUsersRepository;
@@ -43,5 +44,49 @@ describe('Reset Password', () => {
     expect(resetPasswordService.execute(tokenNotFound)).rejects.toBeInstanceOf(
       AppError,
     );
+  });
+
+  it('should not be able to reset user password if user not found', async () => {
+    const fakeUserToken = await fakeUserTokens.generate(
+      'id-n0t-fo444543l3-3x1t',
+    );
+    const { token } = fakeUserToken;
+
+    const userNotFound = {
+      token,
+      password: 'pass4321',
+    };
+
+    expect(resetPasswordService.execute(userNotFound)).rejects.toBeInstanceOf(
+      AppError,
+    );
+  });
+
+  it('should not be able to reset user password after token expired', async () => {
+    const user = await fakeUsersRepository.create({
+      name: 'Teste',
+      email: 'teste@teste.com.br',
+      password: 'pass123',
+    });
+
+    const userToken = await fakeUserTokens.generate(user.id);
+
+    const { token } = userToken;
+    const dateNow = new Date();
+    const dateExpires = new Date(dateNow.setDate(dateNow.getDate() + 2));
+    userToken.created_at = dateExpires;
+
+    await fakeUserTokens.save(userToken);
+
+    console.log(userToken);
+
+    const userTokenExpired = {
+      token,
+      password: 'pass4321',
+    };
+
+    await expect(
+      resetPasswordService.execute(userTokenExpired),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
