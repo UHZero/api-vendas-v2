@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import ShowProfileService from '@modules/users/services/ShowProfileService copy';
+import ShowProfileService from '@modules/users/services/ShowProfileService';
 import UpdateProfileService from '@modules/users/services/UpdateProfileService';
 import { instanceToInstance } from 'class-transformer';
 import { container } from 'tsyringe';
