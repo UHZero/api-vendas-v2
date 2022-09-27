@@ -70,23 +70,13 @@ describe('Reset Password', () => {
     });
 
     const userToken = await fakeUserTokens.generate(user.id);
-
-    const { token } = userToken;
-    const dateNow = new Date();
-    const dateExpires = new Date(dateNow.setDate(dateNow.getDate() + 2));
-    userToken.created_at = dateExpires;
-
+    userToken.created_at = addHours(userToken.created_at, -3);
     await fakeUserTokens.save(userToken);
-
-    console.log(userToken);
-
-    const userTokenExpired = {
-      token,
-      password: 'pass4321',
-    };
+    const findModifiedToken = await fakeUserTokens.findByToken(userToken.token);
+    const token = `${findModifiedToken?.token}`;
 
     await expect(
-      resetPasswordService.execute(userTokenExpired),
+      resetPasswordService.execute({ token, password: 'any' }),
     ).rejects.toBeInstanceOf(AppError);
   });
 });
