@@ -10,7 +10,7 @@
 
 ## 2° step:
 
--- Please verify if base_url at insominia enviorment is <apivendas.uhzero.com.br>
+-- Please verify if base_url at insominia enviorment is <https://apivendas.uhzero.com.br>
 
 -- Now create an user and create session to receive JWT.
 
