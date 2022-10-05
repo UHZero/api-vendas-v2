@@ -1,15 +1,25 @@
-docker run --name redis-client -v redisinsight:/db -p 8001:8001 -d redislabs/redisinsight:latest
-5432:5432 -d postgres
+# API deployed on DigitalOcean
 
-docker run --name redis -p 6379:6379 -d -t redis:alpine
+## 1° step:
 
-docker run --name redis-client -v redisinsight:/db -p 8001:8001 -d redislabs/redisinsight:latest
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=API%20Vendas&uri=https%3A%2F%2Fraw.githubusercontent.com%2FUHZero%2Fapi-vendas-deploy%2Fmain%2FInsomnia.json)
 
-docker exec -it redis sh
+### Trouble importing? I would suggest you try:
 
-redis-cli
-set/get/del
+["Import suceeded" but nothing changes](https://github.com/Kong/insomnia/issues/4274)
 
-rodar container e criar o banco apivendas (ultilizei o dbeaver)
+## 2° step:
 
-deploy repository
+-- Pleae verify if base_url at insominia enviorment is apivendas.uhzero.com.br
+
+-- Now create an user and create session to receive JWT.
+
+-- Copy the received JWt to token property at insomnia enviorment.
+
+## 3° step:
+
+-- Let's use the available services pre-configured at insominia routes.
+
+-- Services available on this API: Products | Customers | Orders | Profile
+
+### This API work's with TS | Node | TypeORM | Redis | Postgres | Express | AWS - SES - S3 | JWT | Docker
