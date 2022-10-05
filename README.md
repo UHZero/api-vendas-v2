@@ -10,11 +10,11 @@
 
 ## 2° step:
 
--- Pleae verify if base_url at insominia enviorment is apivendas.uhzero.com.br
+-- Please verify if base_url at insominia enviorment is <apivendas.uhzero.com.br>
 
 -- Now create an user and create session to receive JWT.
 
--- Copy the received JWt to token property at insomnia enviorment.
+-- Copy the received JWT to token property at insomnia enviorment.
 
 ## 3° step:
 
@@ -22,4 +22,7 @@
 
 -- Services available on this API: Products | Customers | Orders | Profile
 
-### This API work's with TS | Node | TypeORM | Redis | Postgres | Express | AWS - SES - S3 | JWT | Docker
+### This API work's with:
+
+> TS | Node | TypeORM | Redis | Postgres |
+> Express | AWS - SES - S3 | JWT | Docker |
